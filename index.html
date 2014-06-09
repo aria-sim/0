@@ -4,50 +4,6 @@
 	<title>Ohi - Online hangeul input (온라인 한글 입력기, 화상 자판)</title>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="description" content="두벌식/세벌식 한글 자판과 드보락·콜맥 영문 자판을 쓸 수 있게 만든 자바스크립트 한글 입력기" />
-	<script type="text/javascript" src="ohi.js"></script>
-	<style type="text/css">
-	<!--
-		body { margin: 8pt; }
-		body, th, td, input, textarea { font-family: "맑은 고딕", "Malgun Gothic", "NanumGothic", 나눔고딕, 'HCR dotum', '함초롱돋움', '함초롱돋움 확장', Undotum, '은 돋움', '은 자모 돋움 확장', 'Un Jamo Dotum Ex', 'HCR Batang', '함초롱바탕', '함초롱바탕 확장', UnBatang; }
-		span.emph { color: black; }
-		div.title { color: tan; font-weight: bold; font-size: 18pt; line-height: 14pt; padding-top: 2pt; padding-bottom: 6pt; }
-		th, td, input, textarea { font-size: 10pt; }
-		th.menu, th.this, th.none { font-size: 11pt; width: 81px; padding: 1px; }
-		th.menu { cursor: pointer; border: solid 2px oldlace; background-color: snow; }
-		th.this { border: solid 2px wheat; background-color: wheat; }
-		th.none { border: solid 2px white; background-color: white; }
-		td.text { border: solid 2px wheat; background-color: oldlace; }
-		td.langover { cursor: pointer; margin: 0px; padding: 0px 1px; background-color: wheat; }
-		td.langout { cursor: pointer; margin: 0px; padding: 0px 1px; background-color: oldlace; }
-		td.e1, td.e2, td.e3, td.h1, td.h2, td.h3 { font-size: 13px; height: 34px; padding-top:0; padding-bottom:0; border: outset 1px wheat; cursor:pointer;}
-		td.e1 { background-color: wheat; }
-		td.e2 { background-color: lightblue;}
-		td.e3 { background-color: antiquewhite;}
-		td.h1 { background-color: lightgreen; }
-		td.h2 { background-color: lightpink; }
-		td.h3 { background-color: lightblue; }
-		td.e1:hover, td.e2:hover, td.e3:hover, td.h1:hover, td.h2:hover, td.h3:hover { background-color: #EBF4FA; }
-		td.e1:active, td.e2:active, td.e3:active, td.h1:active, td.h2:active, td.h3:active { border: inset 1px wheat; }
-		td.pressed { background-color: lightyellow; }
-		td:hover.clicked {  /*background-color: yellow !important;*/}
-		kbd { font-family: "Courier New", monospace; }
-		kbd.status { font-family: "GulimChe", monospace; color: white; background-color: royalblue; }
-		td.h1 span, td.h2 span, td.h3 span, td.e1 span { float:right; }
-		td.h1 span.e1, td.h2 span.e1, td.h3 span.e1, td.e1 span.e1 { float:left; }
-
-		span.e1 { font-family: "Consolas", monospace, sans-serif; color: gray; display:inline; }
-		td.e2 span.e1 {color:#666;}
-		span.menu, div.menu, kbd.menu { cursor: pointer; background-color: antiquewhite; }
-		span.over, div.over, kbd.over { cursor: pointer; background-color: burlywood; }
-		input.text, textarea#inputText { border: solid 1px wheat; ime-mode: disabled; }
-		form { margin: 0px; padding: 0px; }
-		div#manual {display:block;}
-		div#manual ul li  { text-indent:-100px;padding-left:100px; word-break:break-all;}
-		div#manual, div#tab1, div#tab2, div#tab3 { width:585px; }
-		div#tab1 { padding:5px 0;}
-		div.ref p {text-indent:-0.7em; padding:0 0 0 1em; margin:3px 0; }
-	//-->
-	</style>
 </head>
 
 <body>
