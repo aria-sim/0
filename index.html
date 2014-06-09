@@ -1,78 +1,92 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>0 by aria-sim</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Ohi - Online hangeul input (온라인 한글 입력기, 화상 자판)</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="description" content="두벌식/세벌식 한글 자판과 드보락·콜맥 영문 자판을 쓸 수 있게 만든 자바스크립트 한글 입력기" />
+	<script type="text/javascript" src="ohi.js"></script>
 
-  </head>
-  <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/aria-sim/0">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/aria-sim/0/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/aria-sim/0/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+	<script type="text/javascript">
+	<!--
+		function gotoTab(n) {
+			for (i=1; i<=3; i++) {
+				document.getElementById('menu'+i).className = (i==n) ? 'this' : 'menu';
+				document.getElementById('tab'+i).style.height = (i==n) ? '' : '1px';
+				document.getElementById('tab'+i).style.position = (i==n) ? '' : 'absolute';
+				document.getElementById('tab'+i).style.overflow = (i==n) ? 'visible' : 'hidden';
+				document.getElementById('tab'+i).style.visibility = (i==n) ? 'visible' : 'hidden';
+			}
+			document.getElementById('manual').style.display = (n!=3) ? 'block' : 'none';
+		}
 
-    <div class="wrapper">
+		function appendChild(parentNode,nodeName,className,idName,innerHTML,width,padding) {
+			var childNode = document.createElement(nodeName);
+				if (className) childNode.className = className;
+				if (idName) childNode.id = idName;
+				if (innerHTML) childNode.innerHTML = innerHTML;
+				if (width) childNode.style.width = width;
+				if (padding) childNode.style.padding = padding;
+				parentNode.appendChild(childNode);
+				return childNode;
+		}
+	//-->
+	</script>
 
-      <section>
-        <div id="title">
-          <h1>0</h1>
-          <p></p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/aria-sim">aria-sim</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
+	<style type="text/css">
+	<!--
+		body { margin: 8pt; }
+		body, th, td, input, textarea { font-family: "맑은 고딕", "Malgun Gothic", "NanumGothic", 나눔고딕, 'HCR dotum', '함초롱돋움', '함초롱돋움 확장', Undotum, '은 돋움', '은 자모 돋움 확장', 'Un Jamo Dotum Ex', 'HCR Batang', '함초롱바탕', '함초롱바탕 확장', UnBatang; }
+		span.emph { color: black; }
+		div.title { color: tan; font-weight: bold; font-size: 18pt; line-height: 14pt; padding-top: 2pt; padding-bottom: 6pt; }
+		th, td, input, textarea { font-size: 10pt; }
+		th.menu, th.this, th.none { font-size: 11pt; width: 81px; padding: 1px; }
+		th.menu { cursor: pointer; border: solid 2px oldlace; background-color: snow; }
+		th.this { border: solid 2px wheat; background-color: wheat; }
+		th.none { border: solid 2px white; background-color: white; }
+		td.text { border: solid 2px wheat; background-color: oldlace; }
+		td.langover { cursor: pointer; margin: 0px; padding: 0px 1px; background-color: wheat; }
+		td.langout { cursor: pointer; margin: 0px; padding: 0px 1px; background-color: oldlace; }
+		td.e1, td.e2, td.e3, td.h1, td.h2, td.h3 { font-size: 13px; height: 34px; padding-top:0; padding-bottom:0; border: outset 1px wheat; cursor:pointer;}
+		td.e1 { background-color: wheat; }
+		td.e2 { background-color: lightblue;}
+		td.e3 { background-color: antiquewhite;}
+		td.h1 { background-color: lightgreen; }
+		td.h2 { background-color: lightpink; }
+		td.h3 { background-color: lightblue; }
+		td.e1:hover, td.e2:hover, td.e3:hover, td.h1:hover, td.h2:hover, td.h3:hover { background-color: #EBF4FA; }
+		td.e1:active, td.e2:active, td.e3:active, td.h1:active, td.h2:active, td.h3:active { border: inset 1px wheat; }
+		td.pressed { background-color: lightyellow; }
+		td:hover.clicked {  /*background-color: yellow !important;*/}
+		kbd { font-family: "Courier New", monospace; }
+		kbd.status { font-family: "GulimChe", monospace; color: white; background-color: royalblue; }
+		td.h1 span, td.h2 span, td.h3 span, td.e1 span { float:right; }
+		td.h1 span.e1, td.h2 span.e1, td.h3 span.e1, td.e1 span.e1 { float:left; }
 
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+		span.e1 { font-family: "Consolas", monospace, sans-serif; color: gray; display:inline; }
+		td.e2 span.e1 {color:#666;}
+		span.menu, div.menu, kbd.menu { cursor: pointer; background-color: antiquewhite; }
+		span.over, div.over, kbd.over { cursor: pointer; background-color: burlywood; }
+		input.text, textarea#inputText { border: solid 1px wheat; ime-mode: disabled; }
+		form { margin: 0px; padding: 0px; }
+		div#manual {display:block;}
+		div#manual ul li  { text-indent:-100px;padding-left:100px; word-break:break-all;}
+		div#manual, div#tab1, div#tab2, div#tab3 { width:585px; }
+		div#tab1 { padding:5px 0;}
+		div.ref p {text-indent:-0.7em; padding:0 0 0 1em; margin:3px 0; }
+	//-->
+	</style>
+</head>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<body onload="layout_table_view=1;view_keyboard(K3_type);inputText_focus()">
+	<script type="text/javascript" src="ohi.js"></script>
+<script type="text/javascript">
+  En type="querty";
+  K2_type="KSX5002";
+  K3_type="3-90";
+</script>
+<div id="fb-root"></div>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<hr />
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
-  </body>
+</body>
 </html>
