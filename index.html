@@ -5,33 +5,6 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="description" content="두벌식/세벌식 한글 자판과 드보락·콜맥 영문 자판을 쓸 수 있게 만든 자바스크립트 한글 입력기" />
 	<script type="text/javascript" src="ohi.js"></script>
-
-	<script type="text/javascript">
-	<!--
-		function gotoTab(n) {
-			for (i=1; i<=3; i++) {
-				document.getElementById('menu'+i).className = (i==n) ? 'this' : 'menu';
-				document.getElementById('tab'+i).style.height = (i==n) ? '' : '1px';
-				document.getElementById('tab'+i).style.position = (i==n) ? '' : 'absolute';
-				document.getElementById('tab'+i).style.overflow = (i==n) ? 'visible' : 'hidden';
-				document.getElementById('tab'+i).style.visibility = (i==n) ? 'visible' : 'hidden';
-			}
-			document.getElementById('manual').style.display = (n!=3) ? 'block' : 'none';
-		}
-
-		function appendChild(parentNode,nodeName,className,idName,innerHTML,width,padding) {
-			var childNode = document.createElement(nodeName);
-				if (className) childNode.className = className;
-				if (idName) childNode.id = idName;
-				if (innerHTML) childNode.innerHTML = innerHTML;
-				if (width) childNode.style.width = width;
-				if (padding) childNode.style.padding = padding;
-				parentNode.appendChild(childNode);
-				return childNode;
-		}
-	//-->
-	</script>
-
 	<style type="text/css">
 	<!--
 		body { margin: 8pt; }
@@ -77,7 +50,7 @@
 	</style>
 </head>
 
-<body onload="layout_table_view=1;view_keyboard(K3_type);inputText_focus()">
+<body>
 	<script type="text/javascript" src="ohi.js"></script>
 <script type="text/javascript">
   En type="querty";
