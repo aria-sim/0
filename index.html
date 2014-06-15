@@ -1,1 +1,236 @@
-<iframe src="http://ohi.pat.im/" style="width:100%;height:100%;"></iframe>
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <title>원격 키보드</title>
+    <style>
+body{
+  overflow-x:hidden;
+  overflow-y:hidden;
+  margin:0;
+  font-size:12px
+}
+#container{
+  width : 330px;
+  margin : auto;
+  background : #aaaaaa;
+  padding:20px;
+}
+#log{
+  width : 330px;
+  height : 180px;
+  background : #ffffff;
+  overflow-y : scroll;
+  margin-bottom : 10px;
+}
+.line{
+  border-bottom : solid 1px #aaa;
+  padding : 3px 1px;
+}
+.line .time{
+  color : #aaa;
+  font-size:8px
+}
+.line .text{
+  margin-left : 10px; 
+}
+#inputform{
+  height : 36px;
+}
+#input1, #input2{
+  width : 280px;
+  height :36px;
+  margin : 0;
+  float : left;
+  border : none;
+  resize: none;
+}
+#sendbutton{
+  float : left;
+  width : 40px;
+  height : 36px;
+  margin-left: 10px;
+  background : #ddd;
+  border : none;
+  vertical-align:middle;
+  display:table-cell;
+  text-align:center;
+  font-size:10px;
+}
+    </style>
+    <script>
+var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+function encode64(input) {
+  var output = "";
+  var chr1, chr2, chr3;
+  var enc1, enc2, enc3, enc4;
+  var i = 0;
+  do {
+    chr1 = input.charCodeAt(i++);
+    chr2 = input.charCodeAt(i++);
+    chr3 = input.charCodeAt(i++);
+    enc1 = chr1 >> 2;
+    enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+    enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+    enc4 = chr3 & 63;
+    if (isNaN(chr2)) {
+      enc3 = enc4 = 64;
+    } else if (isNaN(chr3)) {
+      enc4 = 64;
+    }
+    output = output + keyStr.charAt(enc1) + keyStr.charAt(enc2) + 
+    keyStr.charAt(enc3) + keyStr.charAt(enc4);
+  } while (i < input.length);
+
+  return output;
+}
+function decode64(input) {
+  var output = "";
+  var chr1, chr2, chr3;
+  var enc1, enc2, enc3, enc4;
+  var i = 0;
+  // remove all characters that are not A-Z, a-z, 0-9, +, /, or =
+  input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+  do {
+    enc1 = keyStr.indexOf(input.charAt(i++));
+    enc2 = keyStr.indexOf(input.charAt(i++));
+    enc3 = keyStr.indexOf(input.charAt(i++));
+    enc4 = keyStr.indexOf(input.charAt(i++));
+    chr1 = (enc1 << 2) | (enc2 >> 4);
+    chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+    chr3 = ((enc3 & 3) << 6) | enc4;
+    output = output + String.fromCharCode(chr1);
+    if (enc3 != 64) {
+      output = output + String.fromCharCode(chr2);
+    }
+    if (enc4 != 64) {
+      output = output + String.fromCharCode(chr3);
+    }
+  } while (i < input.length);
+  return output;
+}
+
+function appendLog(strTime, strText){
+  //text.replace(/</g,'&lt;');
+  var line = $('<div class="line"></div>');
+
+  var time = $('<div class="time"></div>');
+  time.text(strTime);
+  var text = $('<div class="text"></div>');
+  text.text(strText);
+  
+  line.append(time);
+  line.append(text);
+
+  $('#log').append(line);
+  $('#log').scrollTop(9999999999);
+}
+
+var inputText = '';
+function updateText(text){
+  if(text!=inputText){
+    //console.log('[update:'+(+new Date())+']'+text);
+    inputText = text;
+    $.ajax({
+      url: 'http://r.lkl.kr/api/sendText/' + $('.server').val() + '/'+encodeURIComponent(text),
+      success: function(data) {
+      }
+    });
+  }
+}
+
+function sendKey(key){
+  $.ajax({
+    url: 'http://r.lkl.kr/api/sendKey/' + $('.server').val() + '/'+key,
+    success: function(data) {
+    }
+  });
+}
+
+function send(text){
+  var now = new Date();
+  var time = now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+  appendLog(time, text);
+  $.ajax({
+    url: 'http://r.lkl.kr/api/commitText/' + $('.server').val() + '/'+encodeURIComponent(text),
+    success: function(data) {
+    }
+  });
+}
+var inputForm;
+var inputForm_;
+//inputForm.removeAttr('disabled');
+//inputForm.attr('disabled', true);
+//inputForm.focus();
+function init(){
+  inputForm = $('#input1');
+  inputForm_ = $('#input2');
+  inputForm_.hide();
+
+  var enterTime = (+new Date());
+  var keydownEvent = function(event){
+    if(event.keyCode==13){
+      return false;
+    }
+
+    var text = inputForm.val();
+    if(text==''){
+      if(event.keyCode==8){
+        sendKey('BACKSPACE');
+      }else if(event.keyCode==46){
+        sendKey('DELETE');
+      }
+    }else{
+      updateText(inputForm.val());
+    }
+  };
+  var keyupEvent = function(event){
+    if(event.keyCode==13){
+      var text = inputForm.val();
+      if(text!=''){
+        enterTime = (+new Date());
+        send(text);
+        inputForm_.val('');
+        inputForm_.show();
+        inputForm_.focus();
+        inputForm.hide();
+        var tmpForm = inputForm_;
+        inputForm_=inputForm;
+        inputForm=tmpForm;
+      }else if((+new Date())-enterTime>300){
+        console.log((+new Date())-enterTime);
+        sendKey('ENTER');
+      }
+      return false;
+    }else{
+      updateText(inputForm.val());
+    }
+  };
+  inputForm.keyup(keyupEvent);
+  inputForm_.keyup(keyupEvent);
+  inputForm.keydown(keydownEvent);
+  inputForm_.keydown(keydownEvent);
+  $('#sendbutton').click(function(){
+    var text = inputForm.val();
+    send(text);
+    inputForm.val('');
+    inputForm.focus();
+  });
+  inputForm.focus();
+}
+$(init);
+    </script>
+  </head>
+
+  <body>
+    <textarea id="input1" type="text"  style="width: 100%; height: 30px;"></textarea>
+	<textarea id="input2" type="text"></textarea>
+	<input class="server" type="text" onChange="localStorage.setItem('server',$(this).val())"/>
+	<button id="sendbutton" style="display: none;">전송</button>
+
+	<script>
+		$('.server').val(localStorage.getItem("server"));
+	</script>
+  </body>
+</html>
